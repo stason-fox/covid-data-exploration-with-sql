@@ -64,7 +64,8 @@ GROUP BY date
 ORDER BY date;
 
 --Total population vs vaccinations
-SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations, SUM(CONVERT(int, vac.new_vaccinations)) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.date) AS RollingPeopleVaccinated
+SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations,
+  SUM(CONVERT(int, vac.new_vaccinations)) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.date) AS RollingPeopleVaccinated
 FROM PortfolioProject.dbo.CovidDeaths dea
 INNER JOIN PortfolioProject.dbo.CovidVaccinations vac
 ON dea.location = vac.location
@@ -76,7 +77,8 @@ ORDER BY 2,3;
 WITH PopVsVac (continent, location, date, population, new_vaccinations, RollingPeopleVaccinated)
 AS
 (
-SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations, SUM(CONVERT(int, vac.new_vaccinations)) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.date) AS RollingPeopleVaccinated
+SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations,
+  SUM(CONVERT(int, vac.new_vaccinations)) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.date) AS RollingPeopleVaccinated
 FROM PortfolioProject.dbo.CovidDeaths dea
 INNER JOIN PortfolioProject.dbo.CovidVaccinations vac
 ON dea.location = vac.location
@@ -99,7 +101,8 @@ RollingPeopleVaccinated numeric
 );
 
 INSERT INTO #PercentPopulationVaccinated
-SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations, SUM(CONVERT(int, vac.new_vaccinations)) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.date) AS RollingPeopleVaccinated
+SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations,
+  SUM(CONVERT(int, vac.new_vaccinations)) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.date) AS RollingPeopleVaccinated
 FROM PortfolioProject.dbo.CovidDeaths dea
 INNER JOIN PortfolioProject.dbo.CovidVaccinations vac
 ON dea.location = vac.location
@@ -110,7 +113,8 @@ FROM #PercentPopulationVaccinated;
 
 --Creating View to store data for later visualizations
 CREATE VIEW PercentPopulationVaccinated AS
-SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations, SUM(CONVERT(int, vac.new_vaccinations)) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.date) AS RollingPeopleVaccinated
+SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations,
+  SUM(CONVERT(int, vac.new_vaccinations)) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.date) AS RollingPeopleVaccinated
 FROM PortfolioProject.dbo.CovidDeaths dea
 INNER JOIN PortfolioProject.dbo.CovidVaccinations vac
 ON dea.location = vac.location
